@@ -1,0 +1,25 @@
+/* Sales mapping yazılımı, satış verilerini coğrafi konumla bütünleştiren bir iş çözümüdür. Esas olarak satış yöneticileri ve saha satış görevlileri tarafından bölgeleri tasarlamak için kullanılır. 
+Ayrıca, potansiyel müşterileri, müşterileri ve bölgeleri bir harita üzerinde görselleştirmelerini sağlar.*/
+/* Kaynakca: https://www.guru99.com/create-your-first-hadoop-program.html
+             https://www.tutorialspoint.com/hadoop/hadoop_mapreduce.html
+             https://examples.javacodegeeks.com/java-development/enterprise-java/apache-hadoop/hadoop-hello-world-example/ */
+
+package SalesCountry;
+
+import java.io.IOException;
+
+import org.apache.hadoop.io.IntWritable;
+import org.apache.hadoop.io.LongWritable;
+import org.apache.hadoop.io.Text;
+import org.apache.hadoop.mapred.*;
+
+public class SalesMapper extends MapReduceBase implements Mapper <LongWritable, Text, Text, IntWritable> {
+	private final static IntWritable one = new IntWritable(1);
+
+	public void map(LongWritable key, Text value, OutputCollector <Text, IntWritable> output, Reporter reporter) throws IOException {
+
+		String valueString = value.toString();
+		String[] SingleCountryData = valueString.split(",");
+		output.collect(new Text(SingleCountryData[7]), one);
+	}
+}
